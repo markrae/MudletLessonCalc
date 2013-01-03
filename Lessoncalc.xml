@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE MudletPackage>
+<MudletPackage version="1.0">
+    <TriggerPackage/>
+    <TimerPackage/>
+    <AliasPackage>
+        <Alias isActive="yes" isFolder="no">
+            <name>Lesson Calculator</name>
+            <script>if matches[7] == nil then
+--This command calculates the approximate number of lessons you 
+--would need to go from skillrank A to skillrank B.
+--syntax: lessoncalc &lt;rank&gt; &lt;percentage&gt; to &lt;rank&gt; &lt;percentage&gt;
+--example: lessoncalc apprentice 50 to master 0
+	local currentSkill = skillValue(matches[2],tonumber(matches[3]))
+	local desiredSkill = skillValue(matches[5],tonumber(matches[6]))
+	local requiredLessons = desiredSkill-currentSkill
+	echo(&quot;Approximate cost in lessons: &quot;..requiredLessons)
+	--echo(&quot;\nApproximate cost in credits: &quot;..requiredLessons/6)
+else
+--Lesson plus command
+--The purpose of this is so I can easily see how far a given number
+--of lessons would get me in a skill given my current rank and
+--progress.
+--syntax: lessoncalc &lt;currentrank&gt; &lt;percentage&gt; plus &lt;num of lessons&gt;
+--example: lessoncalc gifted 33 plus 120
+	currentSkill = skillValue(matches[2],tonumber(matches[3]))
+	newSkill = valueSkill( currentSkill + tonumber(matches[7]) )
+	echo(&quot;Your new skill rank would be: &quot;..newSkill)
+end</script>
+            <command></command>
+            <packageName></packageName>
+            <regex>^lessoncalc (\w+) (\d+) (to (\w+) (\d+)|plus (\d+))</regex>
+        </Alias>
+    </AliasPackage>
+    <ActionPackage/>
+    <ScriptPackage>
+        <Script isActive="yes" isFolder="no">
+            <name>skillValue</name>
+            <packageName></packageName>
+            <script>-- Skill Value Script
+-- skill value here is the approximate number of lessons it takes to achieve that rank
+-- it is represented by a string parameter:rank, which serves as a platform or base 
+-- and a percentage, which represents how far along one is toward the next rank
+
+--rank should be a string, and soFar should be a whole number representing a percentage
+function skillValue(rank, soFar)
+	if rank == &quot;inept&quot; then
+		base = 0
+		toNext = 7
+	elseif rank == &quot;novice&quot; then
+		base = 7
+		toNext = 9
+	elseif rank == &quot;apprentice&quot; then
+		base = 16 -- total lessons needed to reach Apprentice rank
+		toNext = 18 -- the difference between the current and the next rank
+	elseif rank == &quot;capable&quot; then
+		base = 34
+		toNext = 55
+	elseif rank == &quot;adept&quot; then
+		base = 89
+		toNext = 89
+	elseif rank == &quot;master&quot; then
+		base = 178
+		toNext = 111
+	elseif rank == &quot;gifted&quot; then
+		base = 289
+		toNext = 134
+	elseif rank == &quot;expert&quot; then
+		base = 423
+		toNext = 177
+	elseif rank == &quot;virtuoso&quot; then
+		base = 600
+		toNext = 312
+	elseif rank == &quot;fabled&quot; then
+		base = 912
+		toNext = 380
+	elseif rank == &quot;mythical&quot; then
+		base = 1292
+		toNext = 423	
+	elseif rank == &quot;transcendent&quot; then
+		base = 1715
+		toNext = 0
+	else
+		echo(&quot;mistake made&quot;)
+	end
+	---echo(tostring(base)..&quot; &quot;..tostring(rank))
+	return( tostring(base + toNext*(soFar/100)) )
+end
+</script>
+            <eventHandlerList/>
+        </Script>
+        <Script isActive="yes" isFolder="no">
+            <name>valueSkill</name>
+            <packageName></packageName>
+            <script>-- valueSkill Script
+-- The purpose of this script is to basically do the reverse of what
+-- skillValue does, hence the reversed name. Where skillValue takes
+-- strings and converts them to numbers, this function will take
+-- numbers and convert them to the proper string.
+
+-- by using elseif's it should drop out of the conditions as soon
+-- as it reaches a rank that it's below
+function valueSkill( lessons)
+	if lessons &lt; 7 then
+		rank = &quot;inept&quot;
+		soFar = lessons/7
+	elseif lessons &lt; 16 then
+		rank = &quot;novice&quot;
+--soFar = (lessonsSpent - totalCostOfPreviousRank) / immediateCostOfNextRank
+		soFar = (lessons - 7)/9
+	elseif lessons &lt; 34 then
+		rank = &quot;apprentice&quot;
+		soFar = (lessons - 16)/18
+	elseif lessons &lt; 89 then
+		rank = &quot;capable&quot;
+		soFar = (lessons - 34)/55
+	elseif lessons &lt; 178 then
+		rank = &quot;adept&quot;
+		soFar = (lessons - 89)/89
+	elseif lessons &lt; 289 then
+		rank = &quot;master&quot;
+		soFar = (lessons - 178)/111
+	elseif lessons &lt; 423 then
+		rank = &quot;gifted&quot;
+		soFar = (lessons - 289)/134
+	elseif lessons &lt; 600 then
+		rank = &quot;expert&quot;
+		soFar = (lessons - 423)/177
+	elseif lessons &lt; 912 then
+		rank = &quot;virtuoso&quot;
+		soFar = (lessons - 600)/312
+	elseif lessons &lt; 1292 then
+		rank = &quot;fabled&quot;
+		soFar = (lessons - 912)/380
+	elseif lessons &lt; 1715 then
+		rank = &quot;mythical&quot;
+		soFar = (lessons - 1292)/423
+	else
+		rank = &quot;transcendent&quot;
+		soFar = 0
+	end
+	return(rank..&quot; &quot;..(soFar*100))
+end</script>
+            <eventHandlerList/>
+        </Script>
+    </ScriptPackage>
+    <KeyPackage/>
+</MudletPackage>
