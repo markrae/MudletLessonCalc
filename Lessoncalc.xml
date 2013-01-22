@@ -55,30 +55,30 @@ function skillValue(rank, soFar)
 		toNext = 18 -- the difference between the current and the next rank
 	elseif rank == &quot;capable&quot; then
 		base = 34
-		toNext = 55
+		toNext = 56
 	elseif rank == &quot;adept&quot; then
-		base = 89
+		base = 90
 		toNext = 89
-	elseif rank == &quot;master&quot; then
-		base = 178
-		toNext = 111
+	elseif rank == &quot;skilled&quot; then
+		base = 179
+		toNext = 112
 	elseif rank == &quot;gifted&quot; then
-		base = 289
+		base = 291
 		toNext = 134
 	elseif rank == &quot;expert&quot; then
-		base = 423
-		toNext = 177
+		base = 425
+		toNext = 178
 	elseif rank == &quot;virtuoso&quot; then
-		base = 600
-		toNext = 312
+		base = 603
+		toNext = 315
 	elseif rank == &quot;fabled&quot; then
-		base = 912
-		toNext = 380
+		base = 924
+		toNext = 383
 	elseif rank == &quot;mythical&quot; then
-		base = 1292
-		toNext = 423	
+		base = 1307
+		toNext = 450	
 	elseif rank == &quot;transcendent&quot; then
-		base = 1715
+		base = 1757
 		toNext = 0
 	else
 		echo(&quot;mistake made&quot;)
@@ -111,30 +111,30 @@ function valueSkill( lessons)
 	elseif lessons &lt; 34 then
 		rank = &quot;apprentice&quot;
 		soFar = (lessons - 16)/18
-	elseif lessons &lt; 89 then
+	elseif lessons &lt; 90 then
 		rank = &quot;capable&quot;
-		soFar = (lessons - 34)/55
-	elseif lessons &lt; 178 then
+		soFar = (lessons - 34)/56
+	elseif lessons &lt; 179 then
 		rank = &quot;adept&quot;
-		soFar = (lessons - 89)/89
-	elseif lessons &lt; 289 then
-		rank = &quot;master&quot;
-		soFar = (lessons - 178)/111
-	elseif lessons &lt; 423 then
+		soFar = (lessons - 90)/89
+	elseif lessons &lt; 291 then
+		rank = &quot;skilled&quot;
+		soFar = (lessons - 179)/112
+	elseif lessons &lt; 425 then
 		rank = &quot;gifted&quot;
-		soFar = (lessons - 289)/134
-	elseif lessons &lt; 600 then
+		soFar = (lessons - 291)/134
+	elseif lessons &lt; 603 then
 		rank = &quot;expert&quot;
-		soFar = (lessons - 423)/177
-	elseif lessons &lt; 912 then
+		soFar = (lessons - 425)/178
+	elseif lessons &lt; 924 then
 		rank = &quot;virtuoso&quot;
-		soFar = (lessons - 600)/312
-	elseif lessons &lt; 1292 then
+		soFar = (lessons - 603)/315
+	elseif lessons &lt; 1307 then
 		rank = &quot;fabled&quot;
-		soFar = (lessons - 912)/380
-	elseif lessons &lt; 1715 then
+		soFar = (lessons - 924)/383
+	elseif lessons &lt; 1757 then
 		rank = &quot;mythical&quot;
-		soFar = (lessons - 1292)/423
+		soFar = (lessons - 1307)/450
 	else
 		rank = &quot;transcendent&quot;
 		soFar = 0
